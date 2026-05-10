@@ -1,0 +1,20 @@
+runtime: python312
+entrypoint: gunicorn -b :$PORT app:app
+
+env_variables:
+  # Do not put real keys here! 
+  # Set them in the GCP Console under "Environment Variables"
+  GEMINI_API_KEY: "SET_IN_CONSOLE"
+  SUPABASE_URL: "SET_IN_CONSOLE"
+  SUPABASE_KEY: "SET_IN_CONSOLE"
+  GITHUB_CLIENT_ID: "SET_IN_CONSOLE"
+  GITHUB_CLIENT_SECRET: "SET_IN_CONSOLE"
+  FLASK_SECRET_KEY: "SET_IN_CONSOLE"
+
+manual_scaling:
+  instances: 1
+
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeGuard | AI Security Agent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <canvas id="matrix-bg"></canvas>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span class="logo">VibeGuard</span>
+        </div>
+        <div class="nav-right" id="github-auth-section">
+            <a href="/github/login" class="badge badge-idle" id="github-login-btn">Connect GitHub</a>
+        </div>
+    </nav>
+
+    <div id="loading-overlay">
+        <div class="loader"></div>
+        <div style="margin-top: 15px; color: var(--accent-green);">Analyzing Security...</div>
+    </div>
+
+    <section id="hero" class="hero-section">
+        <div class="input-container">
+            <h1 class="headline">Secure Your Vibe</h1>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Paste your code or enter a GitHub URL to start the audit.</p>
+            
+            <textarea id="code-area" placeholder="Paste your code here..."></textarea>
+            
+            <div class="controls">
+                <input type="text" id="repo-url" placeholder="Optional: GitHub Repo URL">
+                <button id="scan-btn" class="scan-btn">Scan for Vulns</button>
+                <button id="example-btn" class="action-btn" style="margin-top: 0; border-color: var(--accent-cyan); color: var(--accent-cyan);">Try an example</button>
+            </div>
+
+            <div style="display: flex; gap: 20px; justify-content: center; margin-top: 20px;">
+                <div class="badge badge-idle">Scanner: <span id="scanner-status">idle</span></div>
+                <div class="badge badge-idle">Explainer: <span id="explainer-status">idle</span></div>
+                <div class="badge badge-idle">Fixer: <span id="fixer-status">idle</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="dashboard" class="dashboard-section hidden">
+        <div style="display: grid; grid-template-columns: 1fr 300px; gap: 30px;">
+            
+            <div class="main-content">
+                <div class="card">
+                    <h2>Vulnerability Audit</h2>
+                    <ul id="vuln-list" class="vuln-list"></ul>
+                </div>
+
+                <div class="card" id="fix-section">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h2>AI Security Fixes</h2>
+                        <button id="generate-fix-btn" class="action-btn">✨ Generate Fixed Code</button>
+                    </div>
+                    <div id="fix-result" style="margin-top: 20px;">
+                        <p style="color: var(--text-muted);">Generate a fix to see the secure version of your code.</p>
+                    </div>
+                </div>
+
+                <div class="card" id="hacker-section">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h2>Hacker Simulation</h2>
+                        <button id="simulate-btn" class="action-btn">💀 Run Attack Sim</button>
+                    </div>
+                    <div id="simulation-result" class="terminal" style="margin-top: 20px;">
+                        $ whoami
+                        guest
+                        $ _
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="card score-container">
+                    <h2>Vibe Check</h2>
+                    <svg viewBox="0 0 36 36" class="circular-chart">
+                        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                        <path class="circle" id="score-circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                        <text x="18" y="20.35" class="percentage" id="score-text">0</text>
+                    </svg>
+                    <div id="risk-level" style="margin-top: 10px; font-weight: bold; font-size: 1.2rem;">-</div>
+                </div>
+
+                <div class="card" id="github-repo-input" style="display: none;">
+                    <h2>Push Fixes</h2>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">Create a Pull Request with the AI fixes.</p>
+                    <input type="text" id="file-path" placeholder="File path (e.g. app.py)" style="width: 100%; margin-bottom: 10px; background: #000; border: 1px solid #333; color: #fff; padding: 5px;">
+                    <button id="createPRBtn" class="action-btn" style="width: 100%;">Create Pull Request</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
